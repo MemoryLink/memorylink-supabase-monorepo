@@ -75,6 +75,7 @@ model users {
   mfa_factors                 mfa_factors[]
   sessions                    sessions[]
   Profile                     Profile[]
+  topics                      Topic[]
 
   @@index([instance_id])
   @@schema("auth")
@@ -298,4 +299,37 @@ enum factor_type {
   webauthn
 
   @@schema("auth")
+}
+
+model Example {
+    id        String   @id @default(cuid())
+    text        String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@schema("public")
+}
+
+model Topic {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    title     String
+    user      users    @relation(fields: [userId], references: [id]) // Updated relation to use the 'users' model
+    userId    String    @db.Uuid
+    notes     Note[]
+
+    @@schema("auth") // Optional: specify schema  
+}
+
+model Note {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    title     String   
+    content   String   @db.Text
+    topic     Topic    @relation(fields: [topicId], references: [id])
+    topicId   String
+
+    @@schema("auth") // Optional: specify schema
 }

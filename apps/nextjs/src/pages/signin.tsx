@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Eye, EyeOff, Github } from "lucide-react";
 
 export default function SigninPage() {
   const supabase = useSupabaseClient();
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +26,10 @@ export default function SigninPage() {
     else if (isSignUp && data.user) {
       alert("Check your email for a confirmation link.");
       setIsSignUp(false);
+    } else if (data.user) {
+      router.push("/").catch((err) => {
+        console.error("Failed to navigate", err);
+      });
     }
   };
 
