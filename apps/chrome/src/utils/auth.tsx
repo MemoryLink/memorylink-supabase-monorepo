@@ -3,14 +3,22 @@ import { useStorage } from "@plasmohq/storage/hook";
 
 import { storage } from "./storage";
 
-export function signIn() {
-  window.open(
+export async function signIn() {
+  /* window.open(
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     "http://localhost:3000/signin?" +
       new URLSearchParams({
         callbackUrl: "http://localhost:3000/ext-auth/signin",
       }),
-  );
+  ); */
+
+  const response = await fetch("http://localhost:3000/api/signin", {
+    method: "POST",
+    credentials: "include", // Include cookies
+  });
+  const data = await response.json();
+  console.log(data)
+  return data;
 }
 
 export function signOut() {

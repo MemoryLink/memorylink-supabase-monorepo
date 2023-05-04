@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { type GetServerSideProps } from "next";
 // import { getToken } from "next-auth/jwt";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { createClient } from "@supabase/supabase-js";
+
+// import { createClient } from "@supabase/supabase-js";
 
 import { env } from "~/env.mjs";
 
@@ -22,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!session)
     return {
       redirect: {
-        destination: "/",
+        destination: "/signin",
         permanent: false,
       },
     };
